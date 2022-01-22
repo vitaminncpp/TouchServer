@@ -78,7 +78,7 @@ int main(int argc,int argv){
         nRet = recv(nClient, buff,1024, 0);
 		extractXY(buff,X,Y);
 		std::cout << "--->"<<X << "    " << Y << std::endl;
-        std::cout <<"--->"<< buff << std::endl;
+        //std::cout <<"--->"<< buff << std::endl;
     }
     return nRet;
 }
@@ -108,12 +108,13 @@ void extractXY(char buff[1024], int& X, int& Y) {
 			}
 			break;
 		case 1:
-			if (ch <= 48 && ch >= 57) {
+			if (ch >= 48 && ch <= 57) {
 				X *= 10;
 				X += ch - 48;
 				i++;
 			}
 			else if (ch == ' ') {
+				
 				state = 2;
 			}
 
@@ -121,6 +122,9 @@ void extractXY(char buff[1024], int& X, int& Y) {
 		case 2:
 			if (ch == ' ') {
 				i++;
+			}
+			else if (ch >= 48 && ch <= 57) {
+				state = 3;
 			}
 			else if (ch == '-') {
 				state = 5;
@@ -144,16 +148,18 @@ void extractXY(char buff[1024], int& X, int& Y) {
 				i++;
 			}
 			else {
+				X *= -1;
 				state = 2;
 			}
 			break;
 		case 5:
 			if (ch <= 57 && ch >= 48) {
 				Y *= 10;
-				Y += ch - 48;
+				Y -= ch - 48;
 				i++;
 			}
 			else {
+				
 				state = 6;
 			}
 			break;
