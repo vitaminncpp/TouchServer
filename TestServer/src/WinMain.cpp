@@ -5,7 +5,7 @@
 #include <WinUser.h>
 #include <winsock.h>
 
-#define PORT 9909
+#define PORT 5559
 
 
 

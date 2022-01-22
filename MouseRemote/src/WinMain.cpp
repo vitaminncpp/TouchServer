@@ -6,8 +6,9 @@
 #include <winsock.h>
 #include <string>
 
-#define PORT 9909
+#define PORT 5559
 
+void extractXY(char[1024], int& , int&);
 
 
 struct sockaddr_in srv;
@@ -69,14 +70,99 @@ int main(int argc,int argv){
     int addrlen = sizeof(srv);
     nClient = accept(nSock, (struct sockaddr*)&srv,&addrlen);
 
-    char buff[1024]{ 0 };
+    char buff[1024]{ ' '};
 
+	int X=0, Y = 0;
     while (true) {
-        /*/Sleep(20);
-        mouse_event(MOUSEEVENTF_MOVE ,10,10,0,0);
-        i++;*/
+       
         nRet = recv(nClient, buff,1024, 0);
+		extractXY(buff,X,Y);
+		std::cout << "--->"<<X << "    " << Y << std::endl;
         std::cout <<"--->"<< buff << std::endl;
     }
     return nRet;
+}
+
+void extractXY(char buff[1024], int& X, int& Y) {
+	int i = 0;
+	char ch = buff[i];
+	int state = 0;
+	X = 0;
+	Y = 0;
+
+
+	while (ch) {
+
+		switch (state)
+		{
+		case 0:
+			if (ch == ' ') {
+				i++;
+			}
+			else if (ch == '-') {
+				state = 4;
+				i++;
+			}
+			else {
+				state = 1;
+			}
+			break;
+		case 1:
+			if (ch <= 48 && ch >= 57) {
+				X *= 10;
+				X += ch - 48;
+				i++;
+			}
+			else if (ch == ' ') {
+				state = 2;
+			}
+
+			break;
+		case 2:
+			if (ch == ' ') {
+				i++;
+			}
+			else if (ch == '-') {
+				state = 5;
+				i++;
+			}
+			break;
+		case 3:
+			if (ch >= 48 && ch <= 57) {
+				Y *= 10;
+				Y += ch - 48;
+				i++;
+			}
+			else {
+				state = 6;
+			}
+			break;
+		case 4:
+			if (ch >= 48 && ch <= 57) {
+				X *= 10;
+				X += ch - 48;
+				i++;
+			}
+			else {
+				state = 2;
+			}
+			break;
+		case 5:
+			if (ch <= 57 && ch >= 48) {
+				Y *= 10;
+				Y += ch - 48;
+				i++;
+			}
+			else {
+				state = 6;
+			}
+			break;
+		case 6:
+
+			break;
+		default:
+			break;
+		}
+		ch = buff[i];
+	}
 }
