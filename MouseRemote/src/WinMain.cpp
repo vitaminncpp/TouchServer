@@ -78,6 +78,7 @@ int main(int argc,int argv){
         nRet = recv(nClient, buff,1024, 0);
 		extractXY(buff,X,Y);
 		std::cout << "--->"<<X << "    " << Y << std::endl;
+		mouse_event(MOUSEEVENTF_MOVE,X,Y,0,0);
         //std::cout <<"--->"<< buff << std::endl;
     }
     return nRet;
