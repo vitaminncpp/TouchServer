@@ -8,13 +8,14 @@
 
 #define PORT 5559
 
-void extractXY(char[1024], int& , int&);
+void extractXY(char[50], int& , int&);
 
 
 struct sockaddr_in srv;
 
+int main(){
 
-int main(int argc,int argv){
+//int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow){
    
     //Initialize WSA variables
     WSADATA ws;
@@ -70,21 +71,32 @@ int main(int argc,int argv){
     int addrlen = sizeof(srv);
     nClient = accept(nSock, (struct sockaddr*)&srv,&addrlen);
 
-    char buff[1024]{ ' '};
+    char buff[50]{ ' '};
+	//buff[31] = 0;
 
 	int X=0, Y = 0;
+	int it = 0;
+	recv(nClient, buff, 1,0);
     while (true) {
        
-        nRet = recv(nClient, buff,1024, 0);
+        nRet = recv(nClient, buff,30, 0);
+		if (nRet < 0) {
+			std::cout << "Fuck !!!" << std::endl;
+		}
+		if (it == 100) {
+			std::cout << "100 iterations" << std::endl;
+			it = 0;
+		}
 		extractXY(buff,X,Y);
-		std::cout << "--->"<<X << "    " << Y << std::endl;
+		std::cout << "--->"<<X << "\t" << Y <<"\tit: "<<++it<<"\t"<<nRet<< std::endl;
+		std::cout << "--->"<<buff << std::endl;
 		mouse_event(MOUSEEVENTF_MOVE,X,Y,0,0);
         //std::cout <<"--->"<< buff << std::endl;
     }
     return nRet;
 }
 
-void extractXY(char buff[1024], int& X, int& Y) {
+void extractXY(char buff[50], int& X, int& Y) {
 	int i = 0;
 	char ch = buff[i];
 	int state = 0;
@@ -93,7 +105,9 @@ void extractXY(char buff[1024], int& X, int& Y) {
 
 
 	while (ch) {
-
+		if (ch == 'e') {
+			return;
+		}
 		switch (state)
 		{
 		case 0:
@@ -117,6 +131,9 @@ void extractXY(char buff[1024], int& X, int& Y) {
 			else if (ch == ' ') {
 				
 				state = 2;
+			}
+			else {
+				return;
 			}
 
 			break;
@@ -165,7 +182,7 @@ void extractXY(char buff[1024], int& X, int& Y) {
 			}
 			break;
 		case 6:
-
+			return;
 			break;
 		default:
 			break;
