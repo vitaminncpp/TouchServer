@@ -8,7 +8,7 @@
 
 #define PORT 5559
 
-void extractXY(char[50], int& , int&);
+void extractXY(char[50], int& , int&,char&);
 
 
 struct sockaddr_in srv;
@@ -76,27 +76,63 @@ int main(){
 
 	int X=0, Y = 0;
 	int it = 0;
-	recv(nClient, buff, 1,0);
+	recv(nClient, buff, 30,0);
+
+	/**
+	*  buff[19]='L'
+	*  buff[20]='R
+	*  buff[22]='W'
+	*/
+	char msg = 0;
     while (true) {
        
         nRet = recv(nClient, buff,30, 0);
-		if (nRet < 0) {
+		if (nRet <= 0) {
 			std::cout << "Fuck !!!" << std::endl;
+			exit(-1);
 		}
 		if (it == 100) {
 			std::cout << "100 iterations" << std::endl;
 			it = 0;
 		}
-		extractXY(buff,X,Y);
+		extractXY(buff, X, Y,msg);
+		
+
+		switch (msg) {
+		case 'L':
+			mouse_event(MOUSEEVENTF_LEFTDOWN,0,0,0,0);
+			break;
+		case 'l':
+			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+			break;
+		case 'R':
+			mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
+			break;
+		case 'r':
+			mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
+			break;
+		case 'W':
+			
+			mouse_event(MOUSEEVENTF_WHEEL, 0, 0, X, 0);
+			break;
+		case 'M':
+			
+			mouse_event(MOUSEEVENTF_MOVE, X, Y, 0, 0);
+			break;
+		default:
+			std::cout << "Fuck" << std::endl;
+			break;
+		}
+		
 		std::cout << "--->"<<X << "\t" << Y <<"\tit: "<<++it<<"\t"<<nRet<< std::endl;
 		std::cout << "--->"<<buff << std::endl;
-		mouse_event(MOUSEEVENTF_MOVE,X,Y,0,0);
+		
         //std::cout <<"--->"<< buff << std::endl;
     }
     return nRet;
 }
 
-void extractXY(char buff[50], int& X, int& Y) {
+void extractXY(char buff[50], int& X, int& Y,char&msg) {
 	int i = 0;
 	char ch = buff[i];
 	int state = 0;
@@ -105,9 +141,7 @@ void extractXY(char buff[50], int& X, int& Y) {
 
 
 	while (ch) {
-		if (ch == 'e') {
-			return;
-		}
+		
 		switch (state)
 		{
 		case 0:
@@ -148,6 +182,9 @@ void extractXY(char buff[50], int& X, int& Y) {
 				state = 5;
 				i++;
 			}
+			else {
+				return;
+			}
 			break;
 		case 3:
 			if (ch >= 48 && ch <= 57) {
@@ -182,7 +219,13 @@ void extractXY(char buff[50], int& X, int& Y) {
 			}
 			break;
 		case 6:
-			return;
+			while (true) {
+				ch = buff[i++];
+				if (ch != ' ') {
+					msg = ch;
+					return;
+				}
+			}
 			break;
 		default:
 			break;
