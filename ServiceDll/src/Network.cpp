@@ -8,7 +8,7 @@
 
 
 
-bool getMyIP(struct IPv4& myIP)
+bool GetMyIP(struct IPv4& myIP)
 {
     char szBuffer[1024];
 

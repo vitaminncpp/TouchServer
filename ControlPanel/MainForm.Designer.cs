@@ -51,7 +51,7 @@ namespace ControlPanel
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStart.Location = new System.Drawing.Point(123, 87);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(137, 41);
+            this.btnStart.Size = new System.Drawing.Size(137, 49);
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "Start Server";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -62,7 +62,7 @@ namespace ControlPanel
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStop.Location = new System.Drawing.Point(123, 173);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(137, 35);
+            this.btnStop.Size = new System.Drawing.Size(137, 49);
             this.btnStop.TabIndex = 1;
             this.btnStop.Text = "Stop Server";
             this.btnStop.UseVisualStyleBackColor = true;
@@ -160,6 +160,7 @@ namespace ControlPanel
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Mouse Remote Server";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnExit);
             this.Move += new System.EventHandler(this.MainForm_Move);
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);

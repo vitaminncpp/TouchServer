@@ -1,77 +1,36 @@
-#include <iostream>
-#include <string>
-#include <mutex>
 #include <Windows.h>
 #include <WinUser.h>
+#include <iostream>
+#include <thread>
 #include "NetworkException.h"
 #include "Network.h"
 #include "UDPSocket.h"
-#define DLL_EXPORT __declspec(dllexport)
 
 
-
-bool running = false;
+#define ECHO_PORT 5560
+#define SERVER_PORT 5559
 
 void EchoThread();
 void ServerThread();
 void extractXY(char[50], int&, int&, char&);
 
-std::mutex mu;
-
-
-
-
-void EchoThread() {
-	struct IPv4 ip;
-	if (!getMyIP(ip)) {
-		LOG_ERR;
-		throw NetworkException("Failed to get Local IP", __FILE__, __LINE__);
-	}
-
-	struct IPv4 broadcastIP = ip;
-	broadcastIP.s_b4 = 255; //for broadcast shit
-
-	UDPSocket echo(broadcastIP, 5560);
-	echo.SetSourcePort(5560);
-	while (true)
-	{
-
-		mu.lock();
-		if (running) {
-			mu.unlock();
-			break;
-		}
-		mu.unlock();
-
-		echo.Send((const char*)&ip, 4);
-		Sleep(3000);
-	}
-}
 
 void ServerThread() {
-	UDPSocket server(5559);
+	UDPSocket server(SERVER_PORT);
 	char msg = 0;
-	char buff[50]{ ' ' };
+	char buff[50]{ ' ', };
 
 	int X = 0, Y = 0;
 	int nRet = 0;
 	while (true)
 	{
-		mu.lock();
-		if (running) {
-			mu.unlock();
-			break;
-		}
-		mu.unlock();
-
-
-		nRet = server.Recv(buff,50);
-		if (nRet <= 0) {
+		nRet = server.Recv(buff, 50);
+		if (nRet < 0) {
 			LOG_ERR;
-			throw NetworkException("Failed Receving UDP packet",__FILE__,__LINE__);
+			throw NetworkException("Failed Receving UDP packet", __FILE__, __LINE__);
 			exit(-1);
 		}
-		
+
 		extractXY(buff, X, Y, msg);
 
 
@@ -96,69 +55,23 @@ void ServerThread() {
 
 			mouse_event(MOUSEEVENTF_MOVE, X, Y, 0, 0);
 			break;
+
+		case 'C':
+			mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+			Sleep(1);
+			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+			break;
+		case 'D':
+			mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
+			Sleep(1);
+			mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
+			break;
 		default:
 			LOG_ERR;
 			throw NetworkException("Unknown code", __FILE__, __LINE__);
 			break;
 		}
-	
-	}
-}
 
-
-
-
-
-
-extern "C" {
-
-
-	DLL_EXPORT std::string Start() {
-		mu.lock();
-		if (!running) {
-			mu.unlock();
-			try {
-				std::thread echo(EchoThread);
-				std::thread server(ServerThread);
-
-				echo.detach();
-				echo.detach();
-				running = true;
-				mu.unlock();
-				return std::string("Server Started Successfully");
-				
-			}
-			catch (NetworkException ex) {
-				mu.unlock();
-				std::cout << ex.what() << std::endl;
-				return std::string("Server Failed to start with an exception:").append(ex.what());
-			}
-		}
-		else {
-			mu.unlock();
-			std::cout << "Server is already Started" << std::endl;
-			return std::string("Server is already Started");
-		}
-	}
-
-	DLL_EXPORT std::string Stop() {
-		mu.lock();
-		if (running) {
-			try {
-				running = false;
-				mu.unlock();
-			}
-			catch (NetworkException ex) {
-				mu.unlock();
-				std::cout << ex.what() << std::endl;
-				return std::string("Server Failed to stop with an Exception:").append(ex.what());
-			}
-		}
-		else {
-			mu.unlock();
-			std::cout << "Server is not Started" << std::endl;
-			return std::string("Server is not started");
-		}
 	}
 }
 
@@ -264,4 +177,37 @@ void extractXY(char buff[50], int& X, int& Y, char& msg) {
 		}
 		ch = buff[i];
 	}
+}
+
+
+
+void EchoThread() {
+	struct IPv4 ip;
+	if (!GetMyIP(ip)) {
+		LOG_ERR;
+		throw NetworkException("Failed to get Local IP", __FILE__, __LINE__);
+	}
+
+	IPv4 broadCast = ip;
+	broadCast.s_b4 = 255;
+
+	UDPSocket echo(broadCast, ECHO_PORT);
+	echo.SetSourcePort(5560);
+
+	while (true)
+	{
+		echo.Send((const char*)&ip, 4);
+		Sleep(2000);
+	}
+
+}
+
+
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow) {
+	std::thread echo(EchoThread);
+	std::thread server(ServerThread);
+
+	server.join();
+	echo.join();
+	return 0;
 }

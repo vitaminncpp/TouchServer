@@ -11,32 +11,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace ControlPanel
 {
     public partial class MainForm : Form
     {
-        
+
+        private System.Diagnostics.Process run;
+        private bool running = false;
+
+        /**
+        [DllImport("ServiceDll.Dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Start();
+
+        [DllImport("ServiceDll.Dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Stop();
+
+        */
+
         public MainForm()
         {
             InitializeComponent();
         }
 
-        private void StopServer(object sender, EventArgs e)
-        {
-            try
-            {
-                //Server Stopping Code
-                this.lblStatus.Text = "Server is Stopped";
-
-            }
-            catch(Exception ex)
-            {
         
-            }
-        }
-
         private void OnStartFromContextMenu(object sender, EventArgs e)
         {
 
@@ -85,29 +85,54 @@ namespace ControlPanel
 
         private void StartServer(object sender, EventArgs e)
         {
-
-            try
+            if (!running)
             {
-                //Server Starting Code
-                this.lblStatus.Text = "Server is Running";
+                try
+                {
+                    run = Process.Start("MouseRemote.exe");
+                    this.lblStatus.Text = "Server is Running";
+                    running = true;
+
+                }
+                catch (Exception ex)
+                {
+                    this.lblStatus.Text = "Failed to Start:" + ex.ToString();
+
+                }
             }
-            catch (Exception ex)
-            {
-                this.lblStatus.Text = "Server is Failed to Start";
-
-            }
-
-
+           
         }
+        private void StopServer(object sender, EventArgs e)
+        {
+            if (running)
+            {
+                try
+                {
+                    run.Kill();
+                    this.lblStatus.Text = "Server is NOT Running";
+                    running = false;
+
+                }
+                catch (Exception ex)
+                {
+                    this.lblStatus.Text = "Failed to Stop:" + ex.ToString();
+                }
+            }
+           
+        }
+
 
         private void notufyIconOnClick(object sender, MouseEventArgs e)
         {
            
         }
 
-
-        []
-        string Start();
-        string Stop();
+        private void OnExit(object sender, FormClosedEventArgs e)
+        {
+            if (running)
+            {
+                run.Kill();
+            }
+        }
     }
 }
