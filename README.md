@@ -1,7 +1,9 @@
 # MouseRemoteServer
 
+
 - A MouseRemoteServer is part of [MouseRemote](https://wwww.github.com/Akshayaap/MouseRemote).
 - This acts as a server to recieve response from MouseRemote app.
+
   
   ## Table of Content
   - [Technologies](#technologies)
@@ -42,5 +44,5 @@
   - ****Under progress***
   
   ## Contributors
-  @Akshayaap- [Akshay Parmar](https://github.com/Akshayaap).<br/>
-  @SKR301- [Saurav Kumar](https://github.com/SKR301).
+  - @Akshayaap- [Akshay Parmar](https://github.com/Akshayaap).
+  - @SKR301- [Saurav Kumar](https://github.com/SKR301).
