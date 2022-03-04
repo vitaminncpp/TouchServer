@@ -32,6 +32,7 @@
   - The app will connect to server automatically.
   <br/><br/>
   Note: **The mobile and server must be in same network**
+  For More See: [Documentation](https://www.github.com/Akshayaap/Documentation).
   
   ## Working
   How the program works:-
