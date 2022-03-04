@@ -1,6 +1,6 @@
 # MouseRemoteServer
 
-- A MouseRemoteServer is part of my project MouseRemote.
+- A MouseRemoteServer is part of MouseRemote Project.
 - MouseRemote is android application which emulates touchpad of Laptop/Desktop.
 - MouseRemoteServer is Server application which runs on your host compuuter/Laptop/Dsktop/(or any computing machine that runs Windows).
 - This Server handles all network traffic intialted by MouseRemote Android Application and sends appropreate Mouse events to Operating System to emulate behaviour of touchpad.
