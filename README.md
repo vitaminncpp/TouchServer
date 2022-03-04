@@ -45,5 +45,5 @@
   - will be soon
   
   ## Contributors
-  @Akshayaap- [Akshay Parmar](https://github.com/Akshayaap).
-  @SKR301- [Saurav Kumar](https://github.com/SKR301).
+  - @Akshayaap- [Akshay Parmar](https://github.com/Akshayaap).
+  - @SKR301- [Saurav Kumar](https://github.com/SKR301).
