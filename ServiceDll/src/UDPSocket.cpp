@@ -8,7 +8,7 @@
 #include "UDPSocket.h"
 #pragma comment (lib,"ws2_32.lib")
 
-#ifdef DEBUG
+#ifndef NDEBUG
 #define LOG_ERR std::cerr << "Error At : " << __FILE__ << " : " << __LINE__ << std::endl
 #else
 #define LOG_ERR  
