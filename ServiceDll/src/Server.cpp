@@ -7,6 +7,14 @@
 #include "UDPSocket.h"
 
 
+
+
+struct SendInput {
+	UINT msg;
+	LPARAM lParam;
+	WPARAM wParam;
+};
+
 #define ECHO_PORT 5560
 #define SERVER_PORT 5559
 
@@ -17,60 +25,160 @@ void extractXY(char[50], int&, int&, char&);
 
 void ServerThread() {
 	UDPSocket server(SERVER_PORT);
-	char msg = 0;
-	char buff[50]{ ' ', };
+	struct SendInput input;
+
+	INPUT in;
 
 	int X = 0, Y = 0;
 	int nRet = 0;
 	while (true)
 	{
-		nRet = server.Recv(buff, 50);
+
+#ifndef NDEBUG
+		std::cout << "Waiting for message"<< std::endl;
+#endif // !NDEBUG
+
+
+		nRet = server.Recv(reinterpret_cast<char*>(&input), 100);
 		if (nRet < 0) {
 			LOG_ERR;
 			throw NetworkException("Failed Receving UDP packet", __FILE__, __LINE__);
 			exit(-1);
 		}
 
-		extractXY(buff, X, Y, msg);
+
+#ifndef NDEBUG
+		std::cout << input.msg << "\t" << input.lParam << "\t" << input.wParam << std::endl;
+#endif // !NDEBUG
 
 
-		switch (msg) {
-		case 'L':
-			mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-			break;
-		case 'l':
-			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
-			break;
-		case 'R':
-			mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
-			break;
-		case 'r':
-			mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
-			break;
-		case 'W':
+		POINTS pt;
+		int delta = 0;
+		
+		switch (input.msg) {
 
-			mouse_event(MOUSEEVENTF_WHEEL, 0, 0, X, 0);
-			break;
-		case 'M':
+		case WM_CLOSE:
 
-			mouse_event(MOUSEEVENTF_MOVE, X, Y, 0, 0);
+			break;
+		case WM_KILLFOCUS:
+
+			break;
+		case WM_ACTIVATE:
 			break;
 
-		case 'C':
-			mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-			Sleep(1);
-			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+			/*********** KEYBOARD MESSAGES ***********/
+
+
+		case WM_KEYDOWN:
+
+		case WM_SYSKEYDOWN:
+			in.type = INPUT_KEYBOARD;
+			in.ki.time = 0;
+			//in.ki.dwFlags = WM_KEYDOWN;
+			in.ki.wVk = static_cast<unsigned char>(input.wParam);
 			break;
-		case 'D':
-			mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
-			Sleep(1);
-			mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
+
+		case WM_KEYUP:
+		case WM_SYSKEYUP:
+			in.type = INPUT_KEYBOARD;
+			in.ki.time = 0;
+			in.ki.dwFlags = KEYEVENTF_KEYUP;
+			in.ki.wVk = static_cast<unsigned char>(input.wParam); ;
+			break;
+
+		case WM_CHAR:
+
+			break;
+
+
+			/*********** END KEYBOARD MESSAGES ***********/
+
+			/************* MOUSE MESSAGES ****************/
+
+		case WM_MOUSEMOVE:
+
+			pt = MAKEPOINTS(input.lParam);
+			SetCursorPos(pt.x, pt.y);
+
+			break;
+
+
+		case WM_LBUTTONDOWN:
+
+			pt = MAKEPOINTS(input.lParam);
+			in.type = INPUT_MOUSE;
+			in.mi.dx = pt.x;
+			in.mi.dy = pt.y;
+			in.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+			in.mi.time = 0;
+			in.mi.mouseData = 0;
+
+			break;
+
+		case WM_RBUTTONDOWN:
+		
+			pt = MAKEPOINTS(input.lParam);
+			in.type = INPUT_MOUSE;
+			in.mi.dx = pt.x;
+			in.mi.dy = pt.y;
+			in.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
+			in.mi.time = 0;
+			in.mi.mouseData = 0;
+
+			break;
+		
+		case WM_LBUTTONUP:
+		
+			 pt = MAKEPOINTS(input.lParam);
+			in.type = INPUT_MOUSE;
+			in.mi.dx = pt.x;
+			in.mi.dy = pt.y;
+			in.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+			in.mi.time = 0;
+			in.mi.mouseData = 0;
+
+			break;
+		
+			
+
+
+		case WM_RBUTTONUP:
+			pt = MAKEPOINTS(input.lParam);
+			in.type = INPUT_MOUSE;
+			in.mi.dx = pt.x;
+			in.mi.dy = pt.y;
+			in.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
+			in.mi.time = 0;
+			in.mi.mouseData = 0;
+
+			break;
+		case WM_MOUSEWHEEL:
+		
+
+			 pt = MAKEPOINTS(input.lParam);
+			delta = GET_WHEEL_DELTA_WPARAM(input.wParam);
+			in.type = INPUT_MOUSE;
+			in.mi.dx = pt.x;
+			in.mi.dy = pt.y;
+			in.mi.dwFlags = MOUSEEVENTF_WHEEL;
+			in.mi.time = 0;
+			in.mi.mouseData = delta;
+			break;
+		
+
+		/************** END MOUSE MESSAGES **************/
+
+		/************** RAW MOUSE MESSAGES **************/
+
+
+		case WM_INPUT:
+
 			break;
 		default:
-			LOG_ERR;
-			throw NetworkException("Unknown code", __FILE__, __LINE__);
 			break;
 		}
+
+		SendInput(1, &in, sizeof(INPUT));
 
 	}
 }
@@ -192,18 +300,24 @@ void EchoThread() {
 	broadCast.s_b4 = 255;
 
 	UDPSocket echo(broadCast, ECHO_PORT);
-	echo.SetSourcePort(5560);
+	echo.SetSourcePort(ECHO_PORT);
 
 	while (true)
 	{
 		echo.Send((const char*)&ip, 4);
 		Sleep(2000);
+		std::cout << ip.s_b1 << " " << ip.s_b2 << " " << ip.s_b3 << " " << ip.s_b4 << std::endl;
 	}
 
 }
 
+#ifdef NDEBUG
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
+#else
+int main(int argc,char** argv)
+#endif // NDEBUG
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow) {
+ {
 	std::thread echo(EchoThread);
 	std::thread server(ServerThread);
 
