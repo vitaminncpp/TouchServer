@@ -39,7 +39,7 @@ void ServerThread() {
 #endif // !NDEBUG
 
 
-		nRet = server.Recv(reinterpret_cast<char*>(&input), 100);
+		nRet = server.Recv(reinterpret_cast<char*>(&input), sizeof(input));
 		if (nRet < 0) {
 			LOG_ERR;
 			throw NetworkException("Failed Receving UDP packet", __FILE__, __LINE__);
@@ -51,7 +51,7 @@ void ServerThread() {
 		std::cout << input.msg << "\t" << input.lParam << "\t" << input.wParam << std::endl;
 #endif // !NDEBUG
 
-
+		in = { 0 ,};
 		POINTS pt;
 		int delta = 0;
 		
@@ -74,7 +74,7 @@ void ServerThread() {
 		case WM_SYSKEYDOWN:
 			in.type = INPUT_KEYBOARD;
 			in.ki.time = 0;
-			//in.ki.dwFlags = WM_KEYDOWN;
+			in.ki.dwFlags = 0;
 			in.ki.wVk = static_cast<unsigned char>(input.wParam);
 			break;
 
@@ -83,7 +83,7 @@ void ServerThread() {
 			in.type = INPUT_KEYBOARD;
 			in.ki.time = 0;
 			in.ki.dwFlags = KEYEVENTF_KEYUP;
-			in.ki.wVk = static_cast<unsigned char>(input.wParam); ;
+			in.ki.wVk = static_cast<unsigned char>(input.wParam); 
 			break;
 
 		case WM_CHAR:
