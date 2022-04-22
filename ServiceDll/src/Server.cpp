@@ -136,7 +136,6 @@ void ServerThread() {
 			in.mi.dwFlags = MOUSEEVENTF_LEFTUP;
 			in.mi.time = 0;
 			in.mi.mouseData = 0;
-
 			break;
 		
 			

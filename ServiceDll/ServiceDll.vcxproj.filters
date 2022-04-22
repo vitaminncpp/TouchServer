@@ -24,6 +24,12 @@
     <ClInclude Include="src\Network.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\UDPSender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UDPReceiver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NetworkException.cpp">
@@ -36,6 +42,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UDPSender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UDPReceiver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

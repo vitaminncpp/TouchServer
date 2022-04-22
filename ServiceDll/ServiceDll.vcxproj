@@ -91,7 +91,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,7 +125,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,12 +155,16 @@
     <ClInclude Include="src\Network.h" />
     <ClInclude Include="src\NetworkException.h" />
     <ClInclude Include="src\UDPSocket.h" />
+    <ClInclude Include="src\UDPSender.h" />
+    <ClInclude Include="src\UDPReceiver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Network.cpp" />
     <ClCompile Include="src\NetworkException.cpp" />
     <ClCompile Include="src\Server.cpp" />
     <ClCompile Include="src\UDPSocket.cpp" />
+    <ClCompile Include="src\UDPSender.cpp" />
+    <ClCompile Include="src\UDPReceiver.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
