@@ -1,12 +1,11 @@
+#include "NetworkException.h"
+#include "UDPSender.h"
+#include "UDPReceiver.h"
+#include "Util.h"
 #include <Windows.h>
 #include <WinUser.h>
 #include <iostream>
 #include <thread>
-#include "NetworkException.h"
-#include "Network.h"
-#include "UDPSender.h"
-#include "UDPReceiver.h"
-#include <wtypes.h>
 
 
 void GetDesktopResolution(int& horizontal, int& vertical);
@@ -23,16 +22,11 @@ struct SendInput {
 
 void EchoThread();
 void ServerThread();
-void extractXY(char[50], int&, int&, char&);
-
 
 void ServerThread() {
 	UDPReceiver server(SERVER_PORT);
 	struct SendInput input;
 
-
-	int width;
-	int height;
 
 
 	INPUT in;
@@ -54,7 +48,7 @@ void ServerThread() {
 			throw NetworkException("Failed Receving UDP packet", __FILE__, __LINE__);
 			exit(-1);
 		}
-
+		
 
 #ifndef NDEBUG
 		std::cout << input.msg << "\t" << input.lParam << "\t" << input.wParam << std::endl;
@@ -190,112 +184,6 @@ void ServerThread() {
 
 	}
 }
-
-
-
-void extractXY(char buff[50], int& X, int& Y, char& msg) {
-	int i = 0;
-	char ch = buff[i];
-	int state = 0;
-	X = 0;
-	Y = 0;
-
-
-	while (ch) {
-
-		switch (state)
-		{
-		case 0:
-			if (ch == ' ') {
-				i++;
-			}
-			else if (ch == '-') {
-				state = 4;
-				i++;
-			}
-			else {
-				state = 1;
-			}
-			break;
-		case 1:
-			if (ch >= 48 && ch <= 57) {
-				X *= 10;
-				X += ch - 48;
-				i++;
-			}
-			else if (ch == ' ') {
-
-				state = 2;
-			}
-			else {
-				return;
-			}
-
-			break;
-		case 2:
-			if (ch == ' ') {
-				i++;
-			}
-			else if (ch >= 48 && ch <= 57) {
-				state = 3;
-			}
-			else if (ch == '-') {
-				state = 5;
-				i++;
-			}
-			else {
-				return;
-			}
-			break;
-		case 3:
-			if (ch >= 48 && ch <= 57) {
-				Y *= 10;
-				Y += ch - 48;
-				i++;
-			}
-			else {
-				state = 6;
-			}
-			break;
-		case 4:
-			if (ch >= 48 && ch <= 57) {
-				X *= 10;
-				X += ch - 48;
-				i++;
-			}
-			else {
-				X *= -1;
-				state = 2;
-			}
-			break;
-		case 5:
-			if (ch <= 57 && ch >= 48) {
-				Y *= 10;
-				Y -= ch - 48;
-				i++;
-			}
-			else {
-
-				state = 6;
-			}
-			break;
-		case 6:
-			while (true) {
-				ch = buff[i++];
-				if (ch != ' ') {
-					msg = ch;
-					return;
-				}
-			}
-			break;
-		default:
-			break;
-		}
-		ch = buff[i];
-	}
-}
-
-
 
 void EchoThread() {
 	struct IPv4 ip;

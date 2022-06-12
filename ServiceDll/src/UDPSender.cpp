@@ -135,7 +135,7 @@ int UDPSender::Send(const char* data, int size, IPv4 ip, unsigned short int port
 	return ret;
 }
 
-int UDPSender::Send(const char* data, int size, sockaddr_in toSend, int flags = 0) {
+int UDPSender::Send(const char* data, int size, sockaddr_in toSend, int flags) {
 	int ret = sendto(sock, data, size, flags, reinterpret_cast<SOCKADDR*>(&toSend), sizeof(toSend));
 	if (ret < 0) {
 		LOG_ERR;

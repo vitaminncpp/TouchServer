@@ -1,8 +1,6 @@
 
 #include "NetworkException.h"
 #pragma comment (lib,"ws2_32.lib")
-
-
 #include "UDPReceiver.h"
 
 
@@ -110,17 +108,17 @@ UDPReceiver::~UDPReceiver() {
 }
 
 int UDPReceiver::Bind(IPv4 ip, unsigned short int port) {
-
+	return 0;
 }
 
 int UDPReceiver::Bind(IPv4 ip) {
-
+	return 0;
 }
 int UDPReceiver::Bind(unsigned short int port) {
-
+	return 0;
 }
 
-int UDPReceiver::Recv(char* data, int size, int flags = 0) {
+int UDPReceiver::Recv(char* data, int size, int flags) {
 	int ret = recvfrom(sock, data, size, flags, reinterpret_cast<SOCKADDR*>(&toRecv), &this->addrSize);
 	if (ret < 0) {
 		throw NetworkException("Data Receive Failed", __FILE__, __LINE__);
@@ -129,9 +127,7 @@ int UDPReceiver::Recv(char* data, int size, int flags = 0) {
 	return 0;
 }
 
-int UDPReceiver::Recv(char* data, int size, IPv4 ip, int flags = 0) {
-	//
-}
 
-int UDPReceiver::Recv(char* data, int size, IPv4 ip, unsigned short int port, int flags = 0) {
+int UDPReceiver::Recv(char* data, int size, IPv4 ip, unsigned short int port, int flags) {
+	return 0;
 }

@@ -1,8 +1,7 @@
-#include <Windows.h>
-#include <winsock.h>
+#include "Network.h"
 #pragma comment(lib, "Ws2_32.lib")
 #include <iostream>
-#include "Network.h"
+#include <Windows.h>
 
 
 

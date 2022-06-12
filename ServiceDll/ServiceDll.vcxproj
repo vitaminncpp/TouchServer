@@ -156,6 +156,7 @@
     <ClInclude Include="src\NetworkException.h" />
     <ClInclude Include="src\UDPSender.h" />
     <ClInclude Include="src\UDPReceiver.h" />
+    <ClInclude Include="src\Util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Network.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="src\Server.cpp" />
     <ClCompile Include="src\UDPSender.cpp" />
     <ClCompile Include="src\UDPReceiver.cpp" />
+    <ClCompile Include="src\Util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\protocol.json" />
