@@ -154,7 +154,6 @@
   <ItemGroup>
     <ClInclude Include="src\Network.h" />
     <ClInclude Include="src\NetworkException.h" />
-    <ClInclude Include="src\UDPSocket.h" />
     <ClInclude Include="src\UDPSender.h" />
     <ClInclude Include="src\UDPReceiver.h" />
   </ItemGroup>
@@ -162,9 +161,11 @@
     <ClCompile Include="src\Network.cpp" />
     <ClCompile Include="src\NetworkException.cpp" />
     <ClCompile Include="src\Server.cpp" />
-    <ClCompile Include="src\UDPSocket.cpp" />
     <ClCompile Include="src\UDPSender.cpp" />
     <ClCompile Include="src\UDPReceiver.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\protocol.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

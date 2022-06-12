@@ -1,0 +1,18 @@
+{
+  "type": "DWORD",
+
+  
+  "dx": "float",
+  "dy": "float",
+  "mouseData": "DWORD",
+
+
+  "wVk": "WORD",
+  "wScan": "WORD",
+
+
+  "dwFlags": "DWORD",
+  "time": "DWORD",
+  "dwExtraInfo": "ULONG_PTR"
+
+}

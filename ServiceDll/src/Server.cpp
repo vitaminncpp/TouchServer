@@ -4,9 +4,12 @@
 #include <thread>
 #include "NetworkException.h"
 #include "Network.h"
-#include "UDPSocket.h"
+#include "UDPSender.h"
+#include "UDPReceiver.h"
+#include <wtypes.h>
 
 
+void GetDesktopResolution(int& horizontal, int& vertical);
 
 
 struct SendInput {
@@ -24,10 +27,16 @@ void extractXY(char[50], int&, int&, char&);
 
 
 void ServerThread() {
-	UDPSocket server(SERVER_PORT);
+	UDPReceiver server(SERVER_PORT);
 	struct SendInput input;
 
+
+	int width;
+	int height;
+
+
 	INPUT in;
+
 
 	int X = 0, Y = 0;
 	int nRet = 0;
@@ -51,7 +60,7 @@ void ServerThread() {
 		std::cout << input.msg << "\t" << input.lParam << "\t" << input.wParam << std::endl;
 #endif // !NDEBUG
 
-		in = { 0 ,};
+
 		POINTS pt;
 		int delta = 0;
 		
@@ -83,7 +92,7 @@ void ServerThread() {
 			in.type = INPUT_KEYBOARD;
 			in.ki.time = 0;
 			in.ki.dwFlags = KEYEVENTF_KEYUP;
-			in.ki.wVk = static_cast<unsigned char>(input.wParam); 
+			in.ki.wVk = static_cast<unsigned char>(input.wParam);
 			break;
 
 		case WM_CHAR:
@@ -291,15 +300,14 @@ void extractXY(char buff[50], int& X, int& Y, char& msg) {
 void EchoThread() {
 	struct IPv4 ip;
 	if (!GetMyIP(ip)) {
-		LOG_ERR;
+		//LOG_ERR;
 		throw NetworkException("Failed to get Local IP", __FILE__, __LINE__);
 	}
 
 	IPv4 broadCast = ip;
 	broadCast.s_b4 = 255;
 
-	UDPSocket echo(broadCast, ECHO_PORT);
-	echo.SetSourcePort(ECHO_PORT);
+	UDPSender echo(broadCast, ECHO_PORT);
 
 	while (true)
 	{
@@ -323,4 +331,13 @@ int main(int argc,char** argv)
 	server.join();
 	echo.join();
 	return 0;
+}
+
+void GetDesktopResolution(int& horizontal, int& vertical)
+{
+	RECT desktop;
+	const HWND hDesktop = GetDesktopWindow();
+	GetWindowRect(hDesktop, &desktop);
+	horizontal = desktop.right;
+	vertical = desktop.bottom;
 }
