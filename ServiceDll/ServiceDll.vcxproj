@@ -24,7 +24,7 @@
     <ProjectGuid>{e3ad5fdf-14e5-4f93-b5cb-26e8bff97184}</ProjectGuid>
     <RootNamespace>ServiceDll</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>MouseRemote</ProjectName>
+    <ProjectName>Server</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

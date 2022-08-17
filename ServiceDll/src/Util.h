@@ -1,11 +1,6 @@
 #pragma once
+#include <string>
+#include <unordered_map>
 
-struct InputJSON {
 
-};
-/**
-* return type indicates error code
-* 0 for no errors
-* ... and so on
-* */
-int ReadJSON(char *buff, struct InputJSON& input);
+int ReadJSON(const std::string& buff, std::unordered_map<std::string, std::string>& input);

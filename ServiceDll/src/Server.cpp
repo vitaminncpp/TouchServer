@@ -10,7 +10,6 @@
 
 void GetDesktopResolution(int& horizontal, int& vertical);
 
-
 struct SendInput {
 	UINT msg;
 	LPARAM lParam;

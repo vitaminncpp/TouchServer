@@ -49,7 +49,7 @@ namespace ControlPanel
             // btnStart
             // 
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(123, 87);
+            this.btnStart.Location = new System.Drawing.Point(123, 67);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(137, 49);
             this.btnStart.TabIndex = 0;
@@ -72,7 +72,7 @@ namespace ControlPanel
             // 
             this.lblStatus.AutoSize = true;
             this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatus.Location = new System.Drawing.Point(434, 87);
+            this.lblStatus.Location = new System.Drawing.Point(363, 87);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(143, 29);
             this.lblStatus.TabIndex = 2;
