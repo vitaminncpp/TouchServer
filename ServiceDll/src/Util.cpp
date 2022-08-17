@@ -68,8 +68,6 @@ int ReadJSON(char *buff, InputJSON &in) {
 			break;
 		case 8:
 			break;
-		
-
 		default:
 			break;
 		}

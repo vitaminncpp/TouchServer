@@ -6,15 +6,11 @@
 #include <WinUser.h>
 #include <iostream>
 #include <thread>
+#include <cmath>
 
 
 void GetDesktopResolution(int& horizontal, int& vertical);
 
-struct SendInput {
-	UINT msg;
-	LPARAM lParam;
-	WPARAM wParam;
-};
 
 #define ECHO_PORT 5560
 #define SERVER_PORT 5559
@@ -24,12 +20,11 @@ void ServerThread();
 
 void ServerThread() {
 	UDPReceiver server(SERVER_PORT);
-	struct SendInput input;
-
-
 
 	INPUT in;
-
+	char buff[1024];
+	std::string json;
+	std::unordered_map<std::string, std::string> map;
 
 	int X = 0, Y = 0;
 	int nRet = 0;
@@ -37,148 +32,45 @@ void ServerThread() {
 	{
 
 #ifndef NDEBUG
-		std::cout << "Waiting for message"<< std::endl;
+		std::cout << "Waiting for message" << std::endl;
 #endif // !NDEBUG
 
 
-		nRet = server.Recv(reinterpret_cast<char*>(&input), sizeof(input));
+		nRet = server.Recv(buff, 1024);
 		if (nRet < 0) {
 			LOG_ERR;
 			throw NetworkException("Failed Receving UDP packet", __FILE__, __LINE__);
 			exit(-1);
 		}
-		
+		json = std::string(buff, 1024);
+		ReadJSON(json, map);
 
 #ifndef NDEBUG
-		std::cout << input.msg << "\t" << input.lParam << "\t" << input.wParam << std::endl;
+		std::cout << json << std::endl;
 #endif // !NDEBUG
 
-
-		POINTS pt;
-		int delta = 0;
-		
-		switch (input.msg) {
-
-		case WM_CLOSE:
-
-			break;
-		case WM_KILLFOCUS:
-
-			break;
-		case WM_ACTIVATE:
-			break;
-
-			/*********** KEYBOARD MESSAGES ***********/
-
-
-		case WM_KEYDOWN:
-
-		case WM_SYSKEYDOWN:
-			in.type = INPUT_KEYBOARD;
-			in.ki.time = 0;
-			in.ki.dwFlags = 0;
-			in.ki.wVk = static_cast<unsigned char>(input.wParam);
-			break;
-
-		case WM_KEYUP:
-		case WM_SYSKEYUP:
-			in.type = INPUT_KEYBOARD;
-			in.ki.time = 0;
-			in.ki.dwFlags = KEYEVENTF_KEYUP;
-			in.ki.wVk = static_cast<unsigned char>(input.wParam);
-			break;
-
-		case WM_CHAR:
-
-			break;
-
-
-			/*********** END KEYBOARD MESSAGES ***********/
-
-			/************* MOUSE MESSAGES ****************/
-
-		case WM_MOUSEMOVE:
-
-			pt = MAKEPOINTS(input.lParam);
-			SetCursorPos(pt.x, pt.y);
-
-			break;
-
-
-		case WM_LBUTTONDOWN:
-
-			pt = MAKEPOINTS(input.lParam);
-			in.type = INPUT_MOUSE;
-			in.mi.dx = pt.x;
-			in.mi.dy = pt.y;
-			in.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
-			in.mi.time = 0;
-			in.mi.mouseData = 0;
-
-			break;
-
-		case WM_RBUTTONDOWN:
-		
-			pt = MAKEPOINTS(input.lParam);
-			in.type = INPUT_MOUSE;
-			in.mi.dx = pt.x;
-			in.mi.dy = pt.y;
-			in.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
-			in.mi.time = 0;
-			in.mi.mouseData = 0;
-
-			break;
-		
-		case WM_LBUTTONUP:
-		
-			 pt = MAKEPOINTS(input.lParam);
-			in.type = INPUT_MOUSE;
-			in.mi.dx = pt.x;
-			in.mi.dy = pt.y;
-			in.mi.dwFlags = MOUSEEVENTF_LEFTUP;
-			in.mi.time = 0;
-			in.mi.mouseData = 0;
-			break;
-		
-			
-
-
-		case WM_RBUTTONUP:
-			pt = MAKEPOINTS(input.lParam);
-			in.type = INPUT_MOUSE;
-			in.mi.dx = pt.x;
-			in.mi.dy = pt.y;
-			in.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
-			in.mi.time = 0;
-			in.mi.mouseData = 0;
-
-			break;
-		case WM_MOUSEWHEEL:
-		
-
-			 pt = MAKEPOINTS(input.lParam);
-			delta = GET_WHEEL_DELTA_WPARAM(input.wParam);
-			in.type = INPUT_MOUSE;
-			in.mi.dx = pt.x;
-			in.mi.dy = pt.y;
-			in.mi.dwFlags = MOUSEEVENTF_WHEEL;
-			in.mi.time = 0;
-			in.mi.mouseData = delta;
-			break;
-		
-
-		/************** END MOUSE MESSAGES **************/
-
-		/************** RAW MOUSE MESSAGES **************/
-
-
-		case WM_INPUT:
-
-			break;
-		default:
-			break;
+		in.type = std::stoi(map["type"]);
+		if (in.type == INPUT_MOUSE) {
+			in.mi.dx = std::stoi(map["dx"]);
+			in.mi.dy = std::stoi(map["dy"]);
+			in.mi.mouseData = std::stoi(map["mouseData"]);
+			in.mi.time = std::stoi(map["time"]);
+			in.mi.dwExtraInfo = std::stoi(map["dwExtraInfo"]);
+			in.mi.dwFlags = std::stoi(map["dwFlags"]);
 		}
-
+		else if (in.type == INPUT_KEYBOARD) {
+			in.ki.wVk = std::stoi(map["wVk"]);
+			in.ki.wScan = std::stoi(map["wScan"]);
+			in.ki.dwFlags = std::stoi(map["dwFlags"]);
+			in.ki.time = std::stoi(map["time"]);
+			in.ki.dwExtraInfo = std::stoi(map["dwExtraInfo"]);
+		}
+		else if (in.type == INPUT_HARDWARE) {
+			//For Future
+		}
+		else {
+			LOG_ERR;
+		}
 		SendInput(1, &in, sizeof(INPUT));
 
 	}
@@ -208,10 +100,10 @@ void EchoThread() {
 #ifdef NDEBUG
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 #else
-int main(int argc,char** argv)
+int main(int argc, char** argv)
 #endif // NDEBUG
 
- {
+{
 	std::thread echo(EchoThread);
 	std::thread server(ServerThread);
 
