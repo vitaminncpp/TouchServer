@@ -42,7 +42,7 @@ void ServerThread() {
 			throw NetworkException("Failed Receving UDP packet", __FILE__, __LINE__);
 			exit(-1);
 		}
-		json = std::string(buff, 1024);
+		json = std::string(buff, 256);
 		ReadJSON(json, map);
 
 #ifndef NDEBUG
@@ -71,19 +71,6 @@ void ServerThread() {
 		else {
 			LOG_ERR;
 		}
-#ifndef NDEBUG
-		std::cout << in.type << std::endl;
-		if (in.type == INPUT_MOUSE) {
-			std::cout <<"dx\t\t:"<<in.mi.dx << std::endl;
-			std::cout <<"dy\t\t:"<<in.mi.dy << std::endl;
-			std::cout <<"MouseEvent Flags\t\t:"<<in.mi.dwFlags << std::endl;
-		}
-		else if(in.type==INPUT_KEYBOARD) {
-			std::cout << "wVk\t\t:" << in.ki.wVk << std::endl;
-			std::cout << "wScan\t\t:" << in.ki.wScan << std::endl;
-			std::cout << "KeyEvent Flags\t\t:" << in.ki.dwFlags << std::endl;
-		}
-#endif // !NDEBUG
 		//SendInput(1, &in, sizeof(INPUT));
 	}
 }
@@ -104,7 +91,7 @@ void EchoThread() {
 	{
 		echo.Send((const char*)&ip, 4);
 		Sleep(2000);
-		std::cout << ip.s_b1 << " " << ip.s_b2 << " " << ip.s_b3 << " " << ip.s_b4 << std::endl;
+		std::cout << (int)ip.s_b1 << " " <<(int) ip.s_b2 << " " << (int)ip.s_b3 << " " << (int)ip.s_b4 << std::endl;
 	}
 
 }

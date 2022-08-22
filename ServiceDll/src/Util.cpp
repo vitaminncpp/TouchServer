@@ -38,7 +38,7 @@ int ReadJSON(const std::string& buff, std::unordered_map<std::string, std::strin
 			}
 			break;
 		case 2:
-			if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch == '_')) {
+			if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch == '_') || (ch >= '0' && ch <= '9') || ch == '-' || ch == '+') {
 				start = i;
 				state = 3;
 			}
@@ -48,7 +48,7 @@ int ReadJSON(const std::string& buff, std::unordered_map<std::string, std::strin
 			}
 			break;
 		case 3:
-			if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch == '_')) {
+			if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch == '_') || (ch >= '0' && ch <= '9') || ch == '-' || ch == '+') {
 				break;
 			}
 			else if (ch == '\"') {
@@ -81,7 +81,7 @@ int ReadJSON(const std::string& buff, std::unordered_map<std::string, std::strin
 			}
 			break;
 		case 6:
-			if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch == '_')) {
+			if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch == '_') || (ch >= '0' && ch <= '9') || ch == '-' || ch == '+') {
 				start = i;
 				state = 7;
 			}
@@ -91,7 +91,7 @@ int ReadJSON(const std::string& buff, std::unordered_map<std::string, std::strin
 			}
 			break;
 		case 7:
-			if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch == '_')) {
+			if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch == '_') || (ch >= '0' && ch <= '9') || ch == '-' || ch == '+') {
 				break;
 			}
 			else if (ch == '\"') {
