@@ -100,7 +100,7 @@ int UDPSender::Send(const char* data,int size,int flags) {
 	int ret = sendto(sock, data, size, flags, reinterpret_cast<SOCKADDR*>(&toSend), sizeof(toSend));
 	if (ret < 0) {
 		LOG_ERR;
-		throw std::system_error(WSAGetLastError(), std::system_category(), "sendto failed");
+		//throw std::system_error(WSAGetLastError(), std::system_category(), "sendto failed");
 		throw NetworkException("Data Send Failed", __FILE__, __LINE__);
 	}
 	return ret;
@@ -115,7 +115,7 @@ int UDPSender::Send(const char* data, int size, IPv4 ip, int flags) {
 	int ret = sendto(sock, data, size, flags, reinterpret_cast<SOCKADDR*>(&add), sizeof(add));
 	if (ret < 0) {
 		LOG_ERR;
-		throw std::system_error(WSAGetLastError(), std::system_category(), "sendto failed");
+		//throw std::system_error(WSAGetLastError(), std::system_category(), "sendto failed");
 		throw NetworkException("Data Send Failed", __FILE__, __LINE__);
 	}
 	return ret;
@@ -129,7 +129,7 @@ int UDPSender::Send(const char* data, int size, IPv4 ip, unsigned short int port
 	int ret = sendto(sock, data, size, flags, reinterpret_cast<SOCKADDR*>(&add), sizeof(add));
 	if (ret < 0) {
 		LOG_ERR;
-		throw std::system_error(WSAGetLastError(), std::system_category(), "sendto failed");
+		//throw std::system_error(WSAGetLastError(), std::system_category(), "sendto failed");
 		throw NetworkException("Data Send Failed", __FILE__, __LINE__);
 	}
 	return ret;
@@ -139,7 +139,7 @@ int UDPSender::Send(const char* data, int size, sockaddr_in toSend, int flags) {
 	int ret = sendto(sock, data, size, flags, reinterpret_cast<SOCKADDR*>(&toSend), sizeof(toSend));
 	if (ret < 0) {
 		LOG_ERR;
-		throw std::system_error(WSAGetLastError(), std::system_category(), "sendto failed");
+		//throw std::system_error(WSAGetLastError(), std::system_category(), "sendto failed");
 		throw NetworkException("Data Send Failed", __FILE__, __LINE__);
 	}
 	return ret;
