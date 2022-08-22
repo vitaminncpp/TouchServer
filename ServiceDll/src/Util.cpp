@@ -129,3 +129,13 @@ int ReadJSON(const std::string& buff, std::unordered_map<std::string, std::strin
 	}
 	return state;
 }
+
+
+void GetDesktopResolution(int& horizontal, int& vertical)
+{
+	RECT desktop;
+	const HWND hDesktop = GetDesktopWindow();
+	GetWindowRect(hDesktop, &desktop);
+	horizontal = desktop.right;
+	vertical = desktop.bottom;
+}

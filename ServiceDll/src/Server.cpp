@@ -9,7 +9,6 @@
 #include <cmath>
 
 
-void GetDesktopResolution(int& horizontal, int& vertical);
 
 
 #define ECHO_PORT 5560
@@ -71,6 +70,21 @@ void ServerThread() {
 		else {
 			LOG_ERR;
 		}
+
+#ifndef NDEBUG
+		std::cout <<"\n\ntype\t\t:"<< in.type << std::endl;
+		if (in.type == INPUT_MOUSE) {
+			 std::cout<<"dx\t\t:"<<in.mi.dx<<std::endl;
+			 std::cout<<"dy\t\t:" << in.mi.dy << std::endl;
+			 std::cout<<"mouseData\t:"<<in.mi.mouseData<<std::endl;
+			 std::cout<<"mouse Flags\t:"<<in.mi.dwFlags<<std::endl;
+		}
+		else if (in.type == INPUT_KEYBOARD) {
+			std::cout << "wVk\t\t:" << in.ki.wVk << std::endl;
+			std::cout << "wScan\t\t:" << in.ki.wScan << std::endl;
+			std::cout << "key Flags\t:" << in.ki.dwFlags << std::endl << std::endl<<std::endl;
+		}
+#endif // !NDEBUG
 		//SendInput(1, &in, sizeof(INPUT));
 	}
 }
@@ -109,13 +123,4 @@ int main(int argc, char** argv)
 	server.join();
 	echo.join();
 	return 0;
-}
-
-void GetDesktopResolution(int& horizontal, int& vertical)
-{
-	RECT desktop;
-	const HWND hDesktop = GetDesktopWindow();
-	GetWindowRect(hDesktop, &desktop);
-	horizontal = desktop.right;
-	vertical = desktop.bottom;
 }

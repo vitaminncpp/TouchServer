@@ -1,4 +1,5 @@
 #pragma once
+#include <Windows.h>
 #include <string>
 #include <unordered_map>
 
@@ -10,3 +11,4 @@
 
 
 int ReadJSON(const std::string& buff, std::unordered_map<std::string, std::string>& input);
+void GetDesktopResolution(int& horizontal, int& vertical);
