@@ -85,7 +85,7 @@ void ServerThread() {
 			std::cout << "key Flags\t:" << in.ki.dwFlags << std::endl << std::endl<<std::endl;
 		}
 #endif // !NDEBUG
-		//SendInput(1, &in, sizeof(INPUT));
+		SendInput(1, &in, sizeof(INPUT));
 	}
 }
 
