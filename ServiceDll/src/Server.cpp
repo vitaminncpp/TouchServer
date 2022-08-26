@@ -72,17 +72,17 @@ void ServerThread() {
 		}
 
 #ifndef NDEBUG
-		std::cout <<"\n\ntype\t\t:"<< in.type << std::endl;
+		std::cout << "\n\ntype\t\t:" << in.type << std::endl;
 		if (in.type == INPUT_MOUSE) {
-			 std::cout<<"dx\t\t:"<<in.mi.dx<<std::endl;
-			 std::cout<<"dy\t\t:" << in.mi.dy << std::endl;
-			 std::cout<<"mouseData\t:"<<in.mi.mouseData<<std::endl;
-			 std::cout<<"mouse Flags\t:"<<in.mi.dwFlags<<std::endl;
+			std::cout << "dx\t\t:" << in.mi.dx << std::endl;
+			std::cout << "dy\t\t:" << in.mi.dy << std::endl;
+			std::cout << "mouseData\t:" << in.mi.mouseData << std::endl;
+			std::cout << "mouse Flags\t:" << in.mi.dwFlags << std::endl;
 		}
 		else if (in.type == INPUT_KEYBOARD) {
 			std::cout << "wVk\t\t:" << in.ki.wVk << std::endl;
 			std::cout << "wScan\t\t:" << in.ki.wScan << std::endl;
-			std::cout << "key Flags\t:" << in.ki.dwFlags << std::endl << std::endl<<std::endl;
+			std::cout << "key Flags\t:" << in.ki.dwFlags << std::endl << std::endl << std::endl;
 		}
 #endif // !NDEBUG
 		SendInput(1, &in, sizeof(INPUT));
@@ -103,12 +103,19 @@ void EchoThread() {
 
 	while (true)
 	{
-		echo.Send((const char*)&ip, 4);
-		Sleep(2000);
-		std::cout << (int)ip.s_b1 << " " <<(int) ip.s_b2 << " " << (int)ip.s_b3 << " " << (int)ip.s_b4 << std::endl;
+		if (!GetMyIP(ip)) {
+			LOG_ERR;
+			throw NetworkException("Failed to get Local IP", __FILE__, __LINE__);
+		}
+		IPv4 broadCast = ip;
+		broadCast.s_b4 = 255;
+
+		echo.Send((const char*)&ip, 4,broadCast);
+		Sleep(3000);
+		std::cout << (int)ip.s_b1 << " " << (int)ip.s_b2 << " " << (int)ip.s_b3 << " " << (int)ip.s_b4 << std::endl;
 	}
 
-}
+	}
 
 #ifdef NDEBUG
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
