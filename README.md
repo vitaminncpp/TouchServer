@@ -1,7 +1,8 @@
 # MouseRemoteServer
 
 
-- A MouseRemoteServer is part of [MouseRemote](https://wwww.github.com/Akshayaap/MouseRemote).
+- A MouseRemoteServer is part of [MouseRemote](https://www.github.com/Akshayaap/MouseRemote).
+- Repositoty to Android Application is [Here](https://www.github.com/Akshayaap/MouseRemote).
 - This acts as a server to recieve response from MouseRemote app.
 
   
