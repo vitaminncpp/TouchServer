@@ -1,15 +1,17 @@
 import socket
 from time import sleep
 
-host = socket.gethostname()
-port = 5560  # initiate port no above 1024
+ip = '192.168.1.255'
 
-print(host)
-server_socket = socket.socket()  # get instance
-# look closely. The bind() function takes tuple as argument
-server_socket.bind(('192.168.43.255', port))  # bind host address and port together
+def main():
+    # interfaces = socket.getaddrinfo(host=ip, port=None, family=socket.AF_INET)
 
-# configure how many client the server can listen simultaneously
-server_socket.listen(2)
-conn, address = server_socket.accept()  # accept new connection
-print("Connection from: " + str(address))
+    while True:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) 
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        sock.bind((ip,0))
+        sock.sendto(b'x', ("255.255.255.255", 5560))
+        sock.close()
+        sleep(3)
+
+main()
