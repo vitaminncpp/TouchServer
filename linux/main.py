@@ -45,7 +45,6 @@ def parseInputCommand(input):
 
     # if inputType == 16:
     #     print('Right Mouse up')
-    
 
 
 x1 = threading.Thread(target=echo)
