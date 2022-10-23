@@ -2,6 +2,7 @@ import socket
 from time import sleep
 import threading
 import json
+import pyautogui
 
 # TODO: find a way to use soft coded IP
 ip_broadcast = '192.168.1.255'
@@ -33,15 +34,17 @@ def parseInputCommand(input):
     
     if inputType == 2:
         print('Left Mouse down')
+        pyautogui.click()
     
-    if inputType == 4:
-        print('Left Mouse up')
+    # if inputType == 4:
+    #     print('Left Mouse up')
     
     if inputType == 8:
         print('Right Mouse down')
+        pyautogui.rightClick()
 
-    if inputType == 16:
-        print('Right Mouse up')
+    # if inputType == 16:
+    #     print('Right Mouse up')
     
 
 
