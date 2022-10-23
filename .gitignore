@@ -401,3 +401,9 @@ FodyWeavers.xsd
 
 
 git-log.sh
+
+.vscode/
+linux/receiver.py
+linux/sender.py
+linux/temp.py
+linux/mouseCommands.py
