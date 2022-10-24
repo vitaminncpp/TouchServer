@@ -19,7 +19,7 @@ def echo():
         print('---- Sending echo ---')
         sock2.close()
         sleep(3)
-    
+
 def server():
     while(True):
         sock1 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) 
@@ -34,17 +34,19 @@ def parseInputCommand(input):
     
     if inputType == 2:
         print('Left Mouse down')
-        pyautogui.click()
+        pyautogui.mouseDown()
     
-    # if inputType == 4:
-    #     print('Left Mouse up')
+    if inputType == 4:
+        print('Left Mouse up')
+        pyautogui.mouseUp()
     
     if inputType == 8:
         print('Right Mouse down')
-        pyautogui.rightClick()
-
-    # if inputType == 16:
-    #     print('Right Mouse up')
+        pyautogui.mouseDown(button='right')
+        
+    if inputType == 16:
+        print('Right Mouse up')
+        pyautogui.mouseUp(button='right')
 
 
 x1 = threading.Thread(target=echo)
