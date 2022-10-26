@@ -30,24 +30,30 @@ def server():
 def parseInputCommand(input):
     obj = json.loads(input)
     inputType = int(obj['dwFlags'])
-    # print(inputType)
-    
+    # print(obj)
+
+    if inputType == 1:
+        xDisp = int(obj['dx'])
+        yDisp = int(obj['dy'])
+        print('Moving:',xDisp,yDisp)
+        pyautogui.move(xDisp, yDisp)
+        # mouse.move(100, 50)
+
     if inputType == 2:
         print('Left Mouse down')
-        pyautogui.mouseDown()
+        # pyautogui.mouseDown()
     
     if inputType == 4:
         print('Left Mouse up')
-        pyautogui.mouseUp()
+        # pyautogui.mouseUp()
     
     if inputType == 8:
         print('Right Mouse down')
-        pyautogui.mouseDown(button='right')
+        # pyautogui.mouseDown(button='right')
         
     if inputType == 16:
         print('Right Mouse up')
-        pyautogui.mouseUp(button='right')
-
+        # pyautogui.mouseUp(button='right')
 
 x1 = threading.Thread(target=echo)
 x2 = threading.Thread(target=server)
