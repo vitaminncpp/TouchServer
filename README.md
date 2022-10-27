@@ -35,11 +35,18 @@
   Note: **The mobile and server must be in same network**
   For More See: [Documentation](https://www.github.com/Akshayaap/Documentation).
   
-  ## Working
+  ## Working (Windows)
   How the program works:-
   - Press `Start` from Desktop-GUI to start.
   - Press `Stop` from Desktop-GUI to stop.
   - You can then Easily control your Computer by using your phone as touchpad.
+  
+  ## Working (Linux)
+  - Install python using `sudo apt-get install python3.8`.
+  - Open terminal in **linux** folder.
+  - Use `sudo python3 -m pip install -r requirements.txt` to install all required libraries.
+  - Run **main.py** file and controll your linux device. 
+  ***Note:-*** *Cursor might not move on some linux distros. Under progress*
   
   ## Screenshots
   Some screenshots of the program:-
