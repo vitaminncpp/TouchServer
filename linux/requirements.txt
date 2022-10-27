@@ -1,5 +1,1 @@
-# socket
-# time
-# threading
-# json
 pyautogui
