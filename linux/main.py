@@ -4,9 +4,19 @@ import threading
 import json
 import pyautogui
 
-# TODO: find a way to use soft coded IP
-ip_broadcast = '192.168.1.255'
-ip_server = '192.168.1.10'
+def getNetworkIp():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    s.connect(('<broadcast>', 0))
+    return s.getsockname()[0]
+
+def getBroadcastAdd(ip):
+    block = ip.split('.')
+    return block[0]+'.'+block[1]+'.'+block[2]+'.255'
+
+ip_server = getNetworkIp()
+ip_broadcast = getBroadcastAdd(ip_server)
+print(ip_broadcast)
 ECHO_PORT = 5560
 SERVER_PORT = 5559
 
