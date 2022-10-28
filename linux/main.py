@@ -16,9 +16,10 @@ def getBroadcastAdd(ip):
 
 ip_server = getNetworkIp()
 ip_broadcast = getBroadcastAdd(ip_server)
-print(ip_broadcast)
 ECHO_PORT = 5560
 SERVER_PORT = 5559
+cursorSen = [10, 10]
+scrollSen = [2, 2]
 
 def echo():
     while(True):
@@ -40,13 +41,12 @@ def server():
 def parseInputCommand(input):
     obj = json.loads(input)
     inputType = int(obj['dwFlags'])
+    print(input)
 
     if inputType == 1:
-        xDisp = int(obj['dx']) * 10
-        yDisp = int(obj['dy']) * 10
-        print('Moving:',xDisp,yDisp)
+        xDisp = int(obj['dx']) * cursorSen[0]
+        yDisp = int(obj['dy']) * cursorSen[1]
         pyautogui.move(xDisp, yDisp)
-        # mouse.move(100, 50)
 
     if inputType == 2:
         print('Left Mouse down')
@@ -63,6 +63,12 @@ def parseInputCommand(input):
     if inputType == 16:
         print('Right Mouse up')
         pyautogui.mouseUp(button='right')
+
+    if inputType == 2048:
+        pyautogui.vscroll(int(obj['mouseData']) * scrollSen[0])
+
+    if inputType == 4096:
+        pyautogui.hscroll(int(obj['mouseData']) * scrollSen[1])
 
 x1 = threading.Thread(target=echo)
 x2 = threading.Thread(target=server)
