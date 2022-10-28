@@ -1,26 +1,19 @@
 # MouseRemoteServer
 
-
 - A MouseRemoteServer is part of [MouseRemote](https://www.github.com/Akshayaap/MouseRemote).
 - Repositoty to Android Application is [Here](https://www.github.com/Akshayaap/MouseRemote).
 - This acts as a server to recieve response from MouseRemote app.
 
-  
   ## Table of Content
   - [Technologies](#technologies)
   - [Setup](#setup)
   - [Working](#working)
-  - [Screenshots](#screenshots)
-  - [Contributors](#contributors)
   
   ## Technologies
   ### For Desktop Server Applicarion
   - C++.
   - C#.
-
-  ### For Android Application
-  - Java v17.
-  - Android Studio.
+  - Python.
   
   ## Setup
   ### For Users
@@ -35,16 +28,15 @@
   Note: **The mobile and server must be in same network**
   For More See: [Documentation](https://www.github.com/Akshayaap/Documentation).
   
-  ## Working
+  ## Working (Windows)
   How the program works:-
   - Press `Start` from Desktop-GUI to start.
   - Press `Stop` from Desktop-GUI to stop.
   - You can then Easily control your Computer by using your phone as touchpad.
   
-  ## Screenshots
-  Some screenshots of the program:-
-  - ****Under progress***
-  
-  ## Contributors
-  - @Akshayaap- [Akshay Parmar](https://github.com/Akshayaap).
-  - @SKR301- [Saurav Kumar](https://github.com/SKR301).
+  ## Working (Linux)
+  - Install python using `sudo apt-get install python3.8`.
+  - Open terminal in **linux** folder.
+  - Use `sudo python3 -m pip install -r requirements.txt` to install all required libraries.
+  - Run **main.py** file and controll your linux device. 
+  ***Note:-*** *Cursor might not move on some linux distros. Under progress*

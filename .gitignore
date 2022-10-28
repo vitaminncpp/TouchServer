@@ -9,6 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+info.txt
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -400,3 +401,9 @@ FodyWeavers.xsd
 
 
 git-log.sh
+
+.vscode/
+linux/receiver.py
+linux/sender.py
+linux/temp.py
+linux/mouseCommands.py
