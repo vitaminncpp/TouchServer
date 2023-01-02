@@ -1,8 +1,8 @@
 # MouseRemoteServer
 
-- A MouseRemoteServer is part of [MouseRemote](https://www.github.com/Akshayaap/MouseRemote).
-- Repositoty to Android Application is [Here](https://www.github.com/Akshayaap/MouseRemote).
-- This acts as a server to recieve response from MouseRemote app.
+- TouchServer is part of [TouchDroid](https://www.github.com/Akshayaap/TouchDroid).
+- Repositoty to Android Application is [Here](https://www.github.com/Akshayaap/TouchDroid).
+- This is Windows Server to capture data from the Network sent by TouchDroid Application and Register Appropreate Events to the Operating System. 
 
   ## Table of Content
   - [Technologies](#technologies)
@@ -13,14 +13,13 @@
   ### For Desktop Server Applicarion
   - C++.
   - C#.
-  - Python.
   
   ## Setup
   ### For Users
   - Download the zip file.
-  - Install android [MouseRemote](https://wwww.github.com/Akshayaap/MouseRemote) apk.
+  - Install android [TouchDroid](https://wwww.github.com/Akshayaap/TouchDroid) apk.
   - Extract MouseRemoteServer.zip at your favorite location in your Windows PC.
-  - Run `ControlPanel.exe`.
+  - Run `UI.exe`.
   - Now you will be able to control Server.
   - Open MouseRemote application in android.
   - The app will connect to server automatically.
@@ -34,9 +33,3 @@
   - Press `Stop` from Desktop-GUI to stop.
   - You can then Easily control your Computer by using your phone as touchpad.
   
-  ## Working (Linux)
-  - Install python using `sudo apt-get install python3.8`.
-  - Open terminal in **linux** folder.
-  - Use `sudo python3 -m pip install -r requirements.txt` to install all required libraries.
-  - Run **main.py** file and controll your linux device. 
-  ***Note:-*** *Cursor might not move on some linux distros. Under progress*
