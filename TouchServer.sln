@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32002.261
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlPanel", "ControlPanel\ControlPanel.csproj", "{F4058F89-897C-4CD7-8EB4-DD016FDAF6CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "ControlPanel\UI.csproj", "{F4058F89-897C-4CD7-8EB4-DD016FDAF6CB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E3AD5FDF-14E5-4F93-B5CB-26E8BFF97184} = {E3AD5FDF-14E5-4F93-B5CB-26E8BFF97184}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MouseRemote", "ServiceDll\ServiceDll.vcxproj", "{E3AD5FDF-14E5-4F93-B5CB-26E8BFF97184}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "ServiceDll\ServiceDll.vcxproj", "{E3AD5FDF-14E5-4F93-B5CB-26E8BFF97184}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

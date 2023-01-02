@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F4058F89-897C-4CD7-8EB4-DD016FDAF6CB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ControlPanel</RootNamespace>
-    <AssemblyName>ControlPanel</AssemblyName>
+    <RootNamespace>UI</RootNamespace>
+    <AssemblyName>UI</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
