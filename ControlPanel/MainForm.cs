@@ -52,7 +52,7 @@ namespace ControlPanel
             if (this.WindowState == FormWindowState.Minimized)
             {
                 this.Hide();
-                notifyIcon.ShowBalloonTip(1000, "MouseRemote","MouseRemote is Minimized to system tray! dont worry you can still use its service.",ToolTipIcon.Info);
+                notifyIcon.ShowBalloonTip(1000, "TouchServer","TouchServer is Minimized to system tray ! Service is Running in Background.",ToolTipIcon.Info);
             }
         }
 
@@ -89,7 +89,7 @@ namespace ControlPanel
             {
                 try
                 {
-                    run = Process.Start("MouseRemote.exe");
+                    run = Process.Start("TouchServer.exe");
                     this.lblStatus.Text = "Server is Running";
                     running = true;
 
