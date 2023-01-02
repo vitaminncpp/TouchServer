@@ -1,8 +1,7 @@
 # MouseRemoteServer
 
-- TouchServer is part of [TouchDroid](https://www.github.com/Akshayaap/TouchDroid).
+- TouchServer is part of [TouchDroid](https://www.github.com/Akshayaap/TouchDroid). This is Windows Server to capture data from the Network sent by TouchDroid Application and Register Appropreate Events to the Operating System. 
 - Repositoty to Android Application is [Here](https://www.github.com/Akshayaap/TouchDroid).
-- This is Windows Server to capture data from the Network sent by TouchDroid Application and Register Appropreate Events to the Operating System. 
 
   ## Table of Content
   - [Technologies](#technologies)
