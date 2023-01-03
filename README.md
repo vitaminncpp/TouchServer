@@ -16,7 +16,7 @@
   ## Setup
   ### For Users
   - Download the zip file.
-  - Install android [TouchDroid](https://wwww.github.com/Akshayaap/TouchDroid) apk.
+  - Install android [TouchDroid](https://www.github.com/Akshayaap/TouchDroid) apk.
   - Extract MouseRemoteServer.zip at your favorite location in your Windows PC.
   - Run `UI.exe`.
   - Now you will be able to control Server.
