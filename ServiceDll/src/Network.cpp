@@ -3,8 +3,6 @@
 #include <iostream>
 #include <Windows.h>
 
-
-
 bool GetMyIP(struct IPv4& myIP)
 {
     char szBuffer[1024];

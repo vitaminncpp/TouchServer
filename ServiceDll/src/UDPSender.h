@@ -1,6 +1,8 @@
 #pragma once
 #include "Network.h"
 
+constexpr auto DEFAULT_PORT = 10117;
+
 class UDPSender
 {
 private:
@@ -10,10 +12,9 @@ private:
     unsigned short port;
 
 public:
-    UDPSender();
-    UDPSender(unsigned short int port);
+    UDPSender(unsigned short int port = DEFAULT_PORT);
     UDPSender(IPv4 ip);
-    UDPSender(IPv4 ip, unsigned short int port);
+    UDPSender(IPv4 ip, unsigned short int port = DEFAULT_PORT);
     ~UDPSender();
 
 public:
