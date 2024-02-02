@@ -1,6 +1,8 @@
 // https://stackoverflow.com/a/868894
 #include "ServerOptions.h"
 
+#include <iostream>
+
 char* GetCmdOption(char** begin, char** end, const std::string& option)
 {
     char** itr = std::find(begin, end, option);

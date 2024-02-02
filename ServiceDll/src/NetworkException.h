@@ -1,8 +1,5 @@
 #pragma once
 #include <string>
-#include <exception>
-
-
 
 #ifndef NDEBUG
 #include <iostream>
@@ -10,7 +7,6 @@
 #else
 #define LOG_ERR
 #endif
-
 
 class NetworkException:public std::exception
 {

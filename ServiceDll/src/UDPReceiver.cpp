@@ -1,6 +1,7 @@
-#include "NetworkException.h"
 #pragma comment (lib,"ws2_32.lib")
+
 #include "UDPReceiver.h"
+#include "NetworkException.h"
 
 UDPReceiver::UDPReceiver(unsigned short int port) {
 	this->port = port;

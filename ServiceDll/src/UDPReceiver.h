@@ -1,7 +1,9 @@
 #pragma once
 #include "Network.h"
 
-constexpr unsigned short int DEFAULT_PORT = 10117;
+#include <WinSock2.h>
+
+#define DEFAULT_PORT 10117
 
 class UDPReceiver
 {

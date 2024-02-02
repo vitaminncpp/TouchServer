@@ -1,6 +1,7 @@
+#pragma comment (lib,"ws2_32.lib")
+
 #include "UDPSender.h"
 #include "NetworkException.h"
-#pragma comment (lib,"ws2_32.lib")
 
 UDPSender::UDPSender(unsigned short int port) {
 	this->port = port;

@@ -1,9 +1,5 @@
 #pragma once
-#include <iostream>
-#include <thread>
-#include <cmath>
-#include <Windows.h>
-#include <WinUser.h>
+#include "Network.h"
 
 constexpr unsigned short int ECHO_PORT = 5560;
 constexpr unsigned short int SERVER_PORT = 5559;

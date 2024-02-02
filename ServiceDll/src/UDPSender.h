@@ -1,7 +1,9 @@
 #pragma once
 #include "Network.h"
 
-constexpr auto DEFAULT_PORT = 10117;
+#include <WinSock2.h>
+
+#define DEFAULT_PORT 10117
 
 class UDPSender
 {
@@ -13,7 +15,6 @@ private:
 
 public:
     UDPSender(unsigned short int port = DEFAULT_PORT);
-    UDPSender(IPv4 ip);
     UDPSender(IPv4 ip, unsigned short int port = DEFAULT_PORT);
     ~UDPSender();
 

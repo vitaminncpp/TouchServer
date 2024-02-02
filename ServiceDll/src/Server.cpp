@@ -5,6 +5,13 @@
 #include "Server.h"
 #include "ServerOptions.h"
 
+#include <iostream>
+#include <thread>
+#include <cmath>
+#include <Windows.h>
+#include <WinUser.h>
+#include <unordered_map>
+
 void ServerThread() {
 	UDPReceiver server(SERVER_PORT);
 
